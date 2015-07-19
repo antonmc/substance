@@ -1,0 +1,12 @@
+:host {
+    display: block;
+    height: 80px;
+    border-bottom: 1px solid #DEDEDE;
+    background-color: #FAFAFA;
+}
+
+paper-item {
+    height: 80px;
+    border-bottom: 1px solid #dedede;
+    background-color: #fafafa;
+}

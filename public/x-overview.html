@@ -1,0 +1,29 @@
+<link rel="import" href="./bower_components/paper-item/paper-item.html">
+<dom-module id="x-overview">
+    <link rel="import" type="css" href="x-overview.css">
+
+    <template>
+        <paper-item>
+            <paper-item-body two-line>
+                <div>{{title}}</div>
+                <div secondary>{{date}}</div>
+            </paper-item-body>
+        </paper-item>
+    </template>
+    <script>
+        XOverview = Polymer({
+            is: 'x-overview',
+
+            factoryImpl: function (data) {
+                this.title = data.title;
+                this.date = data.date;
+                this.id = data.id;
+            },
+
+            _computeListWidth: function (isMobile) {
+                return isMobile ? '100%' : '33%';
+            },
+            _listTap: function () {}
+        });
+    </script>
+</dom-module>
