@@ -10,3 +10,22 @@ paper-item {
     border-bottom: 1px solid #dedede;
     background-color: #fafafa;
 }
+
+.list overview paper-item {
+    height: 80px;
+    border-bottom: 1px solid #dedede;
+    background-color: #fafafa;
+}
+
+.x-overview > *:focus:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.x-overview:focus {
+    background: currentColor;
+    opacity: 0.12;
+}

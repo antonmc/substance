@@ -29,6 +29,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     window.addEventListener('WebComponentsReady', function () {
         // imports are loaded and elements have been registered
         initialize();
+
+        var container = document.getElementById("stuff");
+        var elements = container.getElementsByClassName("style-scope");
+
+        while (elements[0]) {
+            elements[0].parentNode.removeChild(elements[0]);
+        }
+
     });
 
     // Close drawer after menu item is selected if drawerPanel is narrow
@@ -60,7 +68,6 @@ function initialize() {
         for (var e in entries) {
             var xo = new XOverview(entries[e]);
             listElement.appendChild(xo);
-            console.log('adding an entry');
         }
     });
 }

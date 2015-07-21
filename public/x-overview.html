@@ -3,7 +3,7 @@
     <link rel="import" type="css" href="x-overview.css">
 
     <template>
-        <paper-item>
+        <paper-item tabindex$="{{id}}" data-category$="{{id}}" label$="{{id}}">
             <paper-item-body two-line>
                 <div>{{title}}</div>
                 <div secondary>{{date}}</div>
@@ -12,7 +12,9 @@
     </template>
     <script>
         XOverview = Polymer({
+
             is: 'x-overview',
+            is: 'custom-element',
 
             factoryImpl: function (data) {
                 this.title = data.title;
@@ -20,9 +22,16 @@
                 this.id = data.id;
             },
 
+            attached: function () {
+                this.async(function () {
+                    $('iron-pages').removeClass('style-scope');
+                });
+            },
+
             _computeListWidth: function (isMobile) {
                 return isMobile ? '100%' : '33%';
             },
+
             _listTap: function () {}
         });
     </script>

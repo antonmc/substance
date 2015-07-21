@@ -28,26 +28,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     // See https://github.com/Polymer/polymer/issues/1381
     window.addEventListener('WebComponentsReady', function () {
 
-        var blogdata = document.querySelector('#blogdata');
-
-        blogdata.addEventListener('response', function (e) {
-
-            var entries = e.detail.response.data;
-
-            var listElement = document.getElementById("entryList");
-
-            for (var e in entries) {
-                //            var o = document.createElement('x-overview');
-
-                var xo = new XOverview(entries[e]);
-
-                listElement.appendChild(xo);
-                console.log('adding an entry');
-            }
-        });
-
-        console.log('event listener');
-
+        //        while (elements[0]) {
+        //            elements[0].parentNode.remove("style-scope");
+        //        }
         // imports are loaded and elements have been registered
     });
 
@@ -58,11 +41,5 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             drawerPanel.closeDrawer();
         }
     };
-
-    var blogdata = document.querySelector('#blogdata');
-
-    blogdata.addEventListener('response', function (e) {
-        console.log("response from server" + JSON.stringify(e.detail.response));
-    });
 
 })(document);
