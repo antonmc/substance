@@ -11,6 +11,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     display: block;
 }
 
+.blogContent {
+    white-space: pre-wrap;
+}
+
+.blogContent:focus {
+    outline: 0 !important;
+}
+
 .nav {
     border-right: 1px solid #ccc;
 }
@@ -233,16 +241,9 @@ paper-menu a {
 /* desktop-xlarge */
 
 @media all and (min-width: 1601px) and (max-width: 1920px) {}
-/*
- * PolymerThemes v1.0.3
- * Homepage: https://polymerthemes.com
- * Copyright 2015 Polymer Themes
- * Licensed under BSD
- * Based on Polymer: http://www.polymer-project.org/
- * Compatible with Polymer 1.0
- */
-
-@import url("//fonts.googleapis.com/css?family=Arimo:400,700");
+/* * PolymerThemes v1.0.3 * Homepage: https: //polymerthemes.com
+* Copyright 2015 Polymer Themes * Licensed under BSD * Based on Polymer: http: //www.polymer-project.org/
+* Compatible with Polymer 1.0 */ @import url("//fonts.googleapis.com/css?family=Arimo:400,700");
 html {
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
@@ -256,8 +257,7 @@ body {
     min-height: 100%;
     color: #424540;
     background-color: #ffffff;
-    font-family: 'Arimo',
-    sans-serif;
+    font-family: 'Arimo', sans-serif;
     font-weight: 400;
 }
 
@@ -270,9 +270,7 @@ section[hero] {
 }
 
 section:after {
-    content: if false,
-    'one',
-    'two';
+    content: if false, 'one', 'two';
 }
 
 h1,
@@ -290,8 +288,7 @@ h6 {
 h1,
 h3,
 h5 {
-    font-family: 'Arimo',
-    sans-serif;
+    font-family: 'Arimo', sans-serif;
 }
 
 h1 {

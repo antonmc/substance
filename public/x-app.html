@@ -15,11 +15,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <dom-module id="x-app">
 
     <link rel="import" type="css" href="x-app.css">
-    <link rel="import" href="../styles/app-theme.html">
-    <link rel="import" href="sky.html">
 
-    <template is="dom-bind" id="stuff">
-
+    <template>
         <paper-drawer-panel id="paperDrawerPanel" class="main-drawer-panel" main responsive-width="600px" drawer-width="[[_computeListWidth(_isMobile)]]" drawer-toggle-attribute="list-toggle" narrow="{{_isMobile}}">
             <paper-header-panel class="list-panel" drawer>
 
@@ -33,7 +30,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <iron-ajax id="blogdata" auto url="./blog/" params='{"alt":"json", "q":"chrome"}' handle-as="json" on-response="handleResponse" debounce-duration="300" last-response="{{response}}"></iron-ajax>
 
                     <template is="dom-repeat" items="[[response.data]]">
-                        <paper-item tabindex$="{{item.id}}" data-category$="{{item.id}}" label$="{{item.id}}">
+                        <paper-item tabindex$="{{item.id}}" data-category$="{{item.id}}" label$="{{item.id}}" tagName$="{{item.title}}" md$="{{item.markdownRoute}}">
                             <paper-item-body two-line>
                                 <div>{{item.title}}</div>
                                 <div secondary>{{item.date}}</div>
@@ -53,67 +50,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                 <!-- Main Content -->
                 <div class="content">
+                    <paper-toggle-button id="previewToggle" style="float:right;padding:60px;" markdown$="{{item.markdownRoute}}" on-iron-change="handleChange"></paper-toggle-button>
+                    <iron-pages id="ironPages" class="" attr-for-selected="data-route" selected="3">
 
-                    <iron-pages class="" attr-for-selected="data-route" selected="home">
-
-                        <section data-route="home">
-                            <paper-material elevation="1">
-
-                                <p class="paper-font-subhead">You now have:</p>
-
-                                <p class="paper-font-body2">Looking for more Web App layouts? Check out our <a href="https://github.com/PolymerElements/app-layout-templates">layouts</a> collection. You can also <a href="http://polymerelements.github.io/app-layout-templates/">preview</a> them live.</p>
-                            </paper-material>
-                            <paper-material elevation="1">
-                                <p class="paper-font-body2">This is another card.</p>
-                            </paper-material>
-
-                            <paper-material elevation="1" class="paper-font-body2">
-                                <h1 id="license">License</h1>
-                                <p>Everything in this repo is BSD style license unless otherwise specified.</p>
-                                <p>Copyright (c) 2015 The Polymer Authors. All rights reserved.</p>
-                                <p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
-                                <ul>
-                                    <li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
-                                    <li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-                                    </li>
-                                    <li>Neither the name of Google Inc. nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
-                                </ul>
-                                <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
-                            </paper-material>
-
-                        </section>
-
-                        <section data-route="users">
-                            <paper-material elevation="1">
-                                <h2 class="paper-font-display2">Users</h2>
-                                <p>This is the users section</p>
-                                <a href="/users/Rob">Rob</a>
-                            </paper-material>
-                        </section>
-
-                        <section data-route="user-info">
-                            <paper-material elevation="1">
-                                <h2 class="paper-font-display2">
-                User:<span>{{params.name}}</span>
-                </h2>
-                                <div>This is <span>{{params.name}}</span>'s section</div>
-                            </paper-material>
-                        </section>
-
-                        <section data-route="contact">
-                            <paper-material elevation="1">
-                                <h2 class="paper-font-display2">Contact</h2>
-                                <p>This is the contact section</p>
-                            </paper-material>
-                        </section>
-
+                        <template is="dom-repeat" items="[[response.data]]">
+                            <section data-route$="{{item.id}}">
+                                <paper-material elevation="0" class="paper-font-body2">
+                                    <div style="padding-bottom:10px;font-weight:bold;">{{item.title}}</div>
+                                    <div class="blogContent" contentEditable="true" id$="{{item.title}}">{{item.content}}</div>
+                                </paper-material>
+                            </section>
+                            <section data-route$="{{item.markdownRoute}}">
+                                <paper-material elevation="0" class="paper-font-body2">
+                                    <div style="padding-bottom:10px;font-weight:bold;">{{item.title}}</div>
+                                    <marked-element id$="{{item.markdownRoute}}" markdown="{{item.content}}">
+                                    </marked-element>
+                                </paper-material>
+                            </section>
+                        </template>
                     </iron-pages>
                 </div>
-
             </paper-header-panel>
-
         </paper-drawer-panel>
-
     </template>
 
     <script>
@@ -124,15 +82,47 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 return isMobile ? '100%' : '33%';
             },
             _listTap: function () {
-                this.$.mainDrawerPanel.closeDrawer();
+                //                this.$.mainDrawerPanel.closeDrawer();
             },
 
+            mode: true, // edit mode
+
+            selectedBlog: 0,
+            selectedMarkdownRoute: 0,
+            selectedTitle: "",
+
             handleSelect: function (e, details) {
-                console.log('iron-select', e, details);
+                console.log('iron-select', e);
+                console.log('details');
+                console.log(details);
+
+                var ip = document.querySelector("#ironPages");
+                ip.selected = details.item.tabindex;
+                this.selectedTitle = details.item.tagname;
+                this.selectedMarkdownRoute = details.item.md;
+                ip.selected = details.item.tabindex;
+                this.selectedBlog = details.item.tabindex;
+                //               
             },
 
             handleDeselect: function (e, details) {
                 console.log('iron-deselect', e, details);
+            },
+
+            handleChange: function (e, details) {
+                console.log('iron-change', e, details);
+                var ip = document.querySelector("#ironPages");
+
+                if (this.mode === true) {
+                    var changedContent = document.getElementById(this.selectedTitle);
+                    ip.selected = this.selectedMarkdownRoute;
+                    var md = document.getElementById(this.selectedMarkdownRoute);
+                    md.markdown = changedContent.innerHTML;
+                    this.mode = false;
+                } else {
+                    ip.selected = this.selectedBlog;
+                    this.mode = true;
+                }
             }
         });
     </script>

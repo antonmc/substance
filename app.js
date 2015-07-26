@@ -85,12 +85,15 @@ app.get('/blog', function (req, res, next) {
 
                 var e = row_data[r];
 
+                var mdown = 'marked' + e.id
+
                 var entry = {
                     'id': e.id,
                     'title': e.title,
                     'content': e.content,
                     'date': e.date,
-                    'author': e.author
+                    'author': e.author,
+                    'markdownRoute': mdown
                 }
 
                 data.push(entry);

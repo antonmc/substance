@@ -32,13 +32,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         //            elements[0].parentNode.remove("style-scope");
         //        }
         // imports are loaded and elements have been registered
+
+        var formSubmit = document.querySelector('#blogdata');
+
+        formSubmit.addEventListener('response', function (e) {
+            console.log("response from server" + JSON.stringify(e.detail.response));
+        });
     });
 
     // Close drawer after menu item is selected if drawerPanel is narrow
     app.onMenuSelect = function () {
         var drawerPanel = document.querySelector('#paperDrawerPanel');
         if (drawerPanel.narrow) {
-            drawerPanel.closeDrawer();
+            //            drawerPanel.closeDrawer();
         }
     };
 
